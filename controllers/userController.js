@@ -1,5 +1,6 @@
 
 const User=require('../models/userModel')
+const Role=require('../models/roleModel')
 const bcrypt=require('bcryptjs')
 const jwt=require('jsonwebtoken')
 const dotenv = require('dotenv')
@@ -22,19 +23,13 @@ const signup= (req,res)=>{
     return res.status(400).send({message: err})
    }     
 }
-const get =  (req,res) => 
-
-  { 
-     User.find().populate({
-      path: 'roleId',
-      model: Role,
-      populate:{path:"user",model:"User"}
-     })
-} 
 
 const signin=(req,res)=>{
     const {body}=req
-    User.findOne({email:body.email}).then(e=>{
+    User.findOne({email:body.email}).populate({
+        path: 'roleId',
+        model: Role,
+       }).then(e=>{
         res.send(e)
         const payload=e
     if(e){
@@ -44,7 +39,6 @@ const signin=(req,res)=>{
             const token=jwt.sign({payload},process.env.SECRET)
             ls('token',token)
             res.send(ls('token'))
-            // res.json({body})
 
           }else{
             res.send('invalid')
