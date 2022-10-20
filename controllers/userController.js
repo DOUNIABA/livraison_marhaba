@@ -7,19 +7,19 @@ const ls=require('local-storage')
 const {sendEmail} =require('../config/nodemail')
  
 const signup= (req,res)=>{
-    const {body}=req
+ const {body}=req
+
    try{
     bcrypt.hash(body.password,10).then(e=>{
         body.password=e
 
         User.create({...body}).then(()=>{
             res.json('created')
-            // console.log( sendEmail(body.email,token)  )
             sendEmail(body.email,body.password)  
         })
         })
    }catch(err){
-    return res.status(400).send({message: error})
+    return res.status(400).send({message: err})
    }     
 }
 const get =  (req,res) => 
