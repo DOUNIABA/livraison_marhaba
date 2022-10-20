@@ -1,6 +1,5 @@
 
 const mongoose = require('mongoose')
-
 const user = new mongoose.Schema({
     name:{
         type:String,
@@ -21,5 +20,6 @@ const user = new mongoose.Schema({
         ref: 'Role'
       },
     })
+
 const User= mongoose.model('User', user)
 module.exports=User

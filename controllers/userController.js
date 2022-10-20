@@ -18,12 +18,12 @@ const signup= (req,res)=>{
             sendEmail(body.email,body.password)  
         })
         })
-   }catch(error){
+   }catch(err){
     return res.status(400).send({message: error})
    }     
 }
-
 const get =  (req,res) => 
+
   { 
      User.find().populate({
       path: 'roleId',
@@ -35,6 +35,7 @@ const get =  (req,res) =>
 const signin=(req,res)=>{
     const {body}=req
     User.findOne({email:body.email}).then(e=>{
+        res.send(e)
         const payload=e
     if(e){
      bcrypt.compare(body.password,e.password).then(e=>{
