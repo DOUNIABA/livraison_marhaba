@@ -5,7 +5,6 @@ const router =require('express').Router()
 const mdlwr=require('../middleware/auth')
 
 router.post('/api/auth/register',user.signup)
-// router.post('api/auth/confirmation/:)
 router.post('/api/auth/login',user.signin)
 
 router.post('/create',role.createRole)

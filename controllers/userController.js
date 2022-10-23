@@ -1,4 +1,3 @@
-
 const User=require('../models/userModel')
 const Role=require('../models/roleModel')
 const bcrypt=require('bcryptjs')
@@ -6,10 +5,10 @@ const jwt=require('jsonwebtoken')
 const dotenv = require('dotenv')
 const ls=require('local-storage')
 const {sendEmail} =require('../config/nodemail')
- 
+
+
 const signup= (req,res)=>{
  const {body}=req
-
    try{
     bcrypt.hash(body.password,10).then(e=>{
         body.password=e
@@ -23,6 +22,7 @@ const signup= (req,res)=>{
     return res.status(400).send({message: err})
    }     
 }
+
 
 const signin=(req,res)=>{
     const {body}=req
@@ -52,5 +52,4 @@ const signin=(req,res)=>{
     })
 }
 
-
-module.exports= {signup,signin,get}
+module.exports= {signup,signin}
