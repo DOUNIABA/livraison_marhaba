@@ -9,6 +9,5 @@ const authAcces = (permissions) =>{
            }
        }
    }
-   
    module.exports = {authAcces}
    

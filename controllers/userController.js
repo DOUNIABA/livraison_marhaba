@@ -1,3 +1,4 @@
+
 const User=require('../models/userModel')
 const Role=require('../models/roleModel')
 const bcrypt=require('bcryptjs')
@@ -9,20 +10,33 @@ const {sendEmail} =require('../config/nodemail')
 
 const signup= (req,res)=>{
  const {body}=req
-   try{
-    bcrypt.hash(body.password,10).then(e=>{
-        body.password=e
 
+   try{
+    const user =User.findOne({email:body.email})
+      if(user){
+      const token=jwt.sign({_id:user._id},process.env.SECRET)
+      user.token = token
+      bcrypt.hash(body.password,10).then(hashpassword=>
+      {
+        body.password=hashpassword
         User.create({...body}).then(()=>{
             res.json('created')
-            sendEmail(body.email,body.password)  
+            sendEmail(body.email,token)  
         })
-        })
-   }catch(err){
+       })
+   }}
+   catch(err){
     return res.status(400).send({message: err})
    }     
-}
+  }
 
+  const verifyEmail = async (req,res) => {
+    const token = req.params.token
+    const user= await User.findOne({token: token})
+      user.status = "valid"
+     await user.save()
+      res.send('email is valide')
+} 
 
 const signin=(req,res)=>{
     const {body}=req
@@ -34,7 +48,6 @@ const signin=(req,res)=>{
         const payload=e
     if(e){
      bcrypt.compare(body.password,e.password).then(e=>{
-
           if(e){
             const token=jwt.sign({payload},process.env.SECRET)
             ls('token',token)
@@ -52,4 +65,4 @@ const signin=(req,res)=>{
     })
 }
 
-module.exports= {signup,signin}
+module.exports= {signup,signin,verifyEmail}

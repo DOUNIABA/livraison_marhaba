@@ -1,4 +1,3 @@
-
 const mongoose = require('mongoose')
 const user = new mongoose.Schema({
     name:{
@@ -15,6 +14,15 @@ const user = new mongoose.Schema({
         required:true
 
     },
+    status:{
+        type:String,
+        default:"invalid",
+    },
+
+    token:{
+        type:String,
+    },
+
    roleId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Role'
