@@ -7,62 +7,59 @@ const dotenv = require('dotenv')
 const ls=require('local-storage')
 const {sendEmail} =require('../config/nodemail')
 
+const signup = async (req,res)=>{
+  const {body}=req
+     const user = await User.findOne({email:body.email})
+       if(user) 
+        return res.status(400).send('user exist already')
+        ls('email',body.email)
+        const email= ls('email')
+        const token= await jwt.sign({email},process.env.SECRET)
+         ls('eml_token',token)
+ 
+        sendEmail(email,ls('eml_token'))
+      const hash= await bcrypt.hash(body.password,10)
+       body.password=hash
+     const data= await User.create({...body})
+     if(!data)                        
+     return res.send('not created')
+     res.send('created')
+   }
 
-const signup= (req,res)=>{
- const {body}=req
-
-   try{
-    const user =User.findOne({email:body.email})
-      if(user){
-      const token=jwt.sign({_id:user._id},process.env.SECRET)
-      user.token = token
-      bcrypt.hash(body.password,10).then(hashpassword=>
-      {
-        body.password=hashpassword
-        User.create({...body}).then(()=>{
-            res.json('created')
-            sendEmail(body.email,token)  
-        })
-       })
-   }}
-   catch(err){
-    return res.status(400).send({message: err})
-   }     
-  }
-
-  const verifyEmail = async (req,res) => {
+   const verifyEmail = async (req,res) => {
     const token = req.params.token
-    const user= await User.findOne({token: token})
-      user.status = "valid"
-     await user.save()
-      res.send('email is valide')
+     const vrf= jwt.verify(token,process.env.SECRET)
+     req.email=vrf
+     const confirm= await User.findOneAndUpdate({email:req.email.email},{status:"valid"})
+     if(!confirm) return res.send('not comfirmed')
+     res.send('comfirmed')
 } 
 
 const signin=(req,res)=>{
-    const {body}=req
-    User.findOne({email:body.email}).populate({
-        path: 'roleId',
-        model: Role,
-       }).then(e=>{
-        res.send(e)
-        const payload=e
-    if(e){
-     bcrypt.compare(body.password,e.password).then(e=>{
-          if(e){
-            const token=jwt.sign({payload},process.env.SECRET)
-            ls('token',token)
-            res.send(ls('token'))
-
-          }else{
-            res.send('invalid')
-          }
-        }).catch(()=>{
-            res.send('not hashed')
-        })
+  const {body}=req
+  User.findOne({email: body.email}).populate({
+      path: 'roleId',
+      model: Role,
+     })
+     .then(e=>{
+      const payload = e
+  if(e){
+   bcrypt.compare(body.password,e.password).then(e=>{
+        if(e){
+          const token=jwt.sign({payload}, process.env.SECRET)
+          ls('token',token)
+          res.send(ls('token')) 
+          
+        }else{
+          res.send('invalid')
+        }
+      }).catch(()=>{
+          res.send('not hashed')
+      })
 }else{
-    res.send('not found')
+  res.send('not found')
 }
-    })
+  })
 }
 
 module.exports= {signup,signin,verifyEmail}
