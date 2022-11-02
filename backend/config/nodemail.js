@@ -15,7 +15,7 @@ const ls = require("local-storage");
       from: "dounia0bahassane@gmail.com", 
       to: email,
       subject: "confirmation email",
-      html: "<h3>HELLO </h3><p> Please click here to confirm your email: <a href=http://localhost:8000/api/auth/verify-email/"+token+"> click here </a> ",
+      html: "<h3>Bonjour </h3><p> Pour activer votre compte,veuillez cliquer sur ce lien: <a href=http://localhost:4000/api/auth/verify-email/"+token+"> clickez ici ! </a> ",
     },
     (error)=>{
         if(error){

@@ -17,8 +17,7 @@ const signup = async (req,res)=>{
         const email= ls('email')
         const token= await jwt.sign({email},process.env.SECRET)
          ls('eml_token',token)
- 
-        sendEmail(email,ls('eml_token'))
+        sendEmail(email,ls('eml_token'))  
        const hash= await bcrypt.hash(body.password,10)
        body.password=hash
      const data= await User.create({...body, roleId:'6355d40ec510b624a5542a8a'})
@@ -33,7 +32,8 @@ const signup = async (req,res)=>{
      req.email=vrf
      const confirm= await User.findOneAndUpdate({email:req.email.email},{status:"valid"})
      if(!confirm) return res.send('not comfirmed')
-     res.send('comfirmed')
+    //  res.send('comfirmed')
+    res.redirect('http://localhost:3000/login')
 } 
 
 const signin=(req,res)=>{
@@ -44,9 +44,10 @@ const signin=(req,res)=>{
      })
      .then(e=>{
       const payload = e
+      const status = e.status
   if(e){
    bcrypt.compare(body.password,e.password).then(e=>{
-        if(e){
+        if(e && status == 'valid'){
           const token=jwt.sign({payload}, process.env.SECRET)
           ls('token',token)
           res.send(ls('token')) 

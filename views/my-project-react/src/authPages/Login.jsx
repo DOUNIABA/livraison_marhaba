@@ -4,6 +4,7 @@ import {FaSignInAlt} from 'react-icons/fa'
 import axios from 'axios'
 
 function Login() {
+	
 	const [formData, setFormData] = useState({
 		email: '',
 		password: '',
@@ -23,7 +24,7 @@ function Login() {
 		axios.post(`http://localhost:4000/api/auth/login`, formData)
 		.then(res=>{
 			localStorage.setItem("token",res.data)
-			alert('success')
+			alert(res.data)
 		}).catch(error =>{
 			console.log(error)
 		})

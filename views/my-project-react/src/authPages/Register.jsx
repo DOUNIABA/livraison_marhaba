@@ -2,7 +2,6 @@
 import {useState} from 'react'
 import {FaUser} from 'react-icons/fa'
 import axios from 'axios'
-
 function Register(){
 	const [formData, setFormData] = useState({
 		name: '',
@@ -11,7 +10,7 @@ function Register(){
 		password2: ''
 	})
 	const {name, email, password,password2} = formData
-	
+
 	const onChange = (e) =>{
 		setFormData((prevState) => ({
 			...prevState,
@@ -23,9 +22,10 @@ function Register(){
 		e.preventDefault();
 		console.log(formData);
 		axios.post(`http://localhost:4000/api/auth/register`, formData)
-		.then(response =>{
-			console.log(response)
+		.then(res =>{
+			console.log(res)
 			alert('success')
+			
 		}).catch(error =>{
 			console.log(error)
 		})
