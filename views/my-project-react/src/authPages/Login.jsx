@@ -2,9 +2,10 @@
 import {useState} from 'react'
 import {FaSignInAlt} from 'react-icons/fa'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 function Login() {
-	
+
 	const [formData, setFormData] = useState({
 		email: '',
 		password: '',
@@ -17,8 +18,7 @@ function Login() {
 			[e.target.name]:e.target.value,
 		}))
 	}
-
-	const handleApi = (e)=>{
+	const handleApi = (e)=>{	
 		e.preventDefault();
 		console.log(formData);
 		axios.post(`http://localhost:4000/api/auth/login`, formData)
@@ -51,13 +51,12 @@ function Login() {
 				<button type='submit' className='btn btn-block'>Submit</button>
 			</div>
 
-            {/* <div className="form-group">
-            <Link to='/'>
-                Forget password?
+             <div className="form-group">
+            <Link to='/register'>
+                create an account?
             </Link>   
-			</div> */}
-            
-            
+			</div> 
+
 		</form>
 	</section>
 	</>
