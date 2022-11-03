@@ -5,7 +5,6 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 
 function Login() {
-
 	const [formData, setFormData] = useState({
 		email: '',
 		password: '',
@@ -18,6 +17,7 @@ function Login() {
 			[e.target.name]:e.target.value,
 		}))
 	}
+	
 	const handleApi = (e)=>{	
 		e.preventDefault();
 		console.log(formData);

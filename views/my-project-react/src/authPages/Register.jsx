@@ -27,13 +27,12 @@ function Register(){
 		.then(res =>{
 			console.log(res)
 			alert('success check your email')
-			
 		}).catch(error =>{
 			console.log(error)
 		})
 	}
 
-  return (
+  return(
 	<>
 	<section className='heading'>
 		<h1><FaUser />Register</h1>
