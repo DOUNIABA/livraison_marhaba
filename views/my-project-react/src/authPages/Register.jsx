@@ -3,39 +3,8 @@ import {useState} from 'react'
 import {FaUser} from 'react-icons/fa'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from 'yup';
 
-function Register(){	
-	const validationSchema = Yup.object().shape({
-	  
-	  name: Yup.string()
-		.required('Username is required')
-		.min(6, 'Username must be at least 6 characters')
-		.max(20, 'Username must not exceed 20 characters'),
-	  email: Yup.string()
-		.required('Email is required')
-		.email('Email is invalid'),
-	  password: Yup.string()
-		.required('Password is required')
-		.min(6, 'Password must be at least 6 characters')
-		.max(40, 'Password must not exceed 40 characters'),
-		password2: Yup.string()
-		.required('Confirm Password is required')
-		.oneOf([Yup.ref('password'), null], 'Confirm Password does not match'),
-	  acceptTerms: Yup.bool().oneOf([true], 'Accept Terms is required')
-	});
-	const {
-		register,
-		handleSubmit,
-		reset,
-		formState: { errors }
-	  } = useForm({
-		resolver: yupResolver(validationSchema)
-	  });
-
-  
+function Register(){
 	const [formData, setFormData] = useState({
 		name: '',
 		email: '',
