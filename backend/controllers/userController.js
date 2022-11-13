@@ -32,9 +32,13 @@ const signup = async (req,res)=>{
      req.email=vrf
      const confirm= await User.findOneAndUpdate({email:req.email.email},{status:"valid"})
      if(!confirm) return res.send('not comfirmed')
-    //  res.send('comfirmed')
     res.redirect('http://localhost:3000/login')
 } 
+
+function gererateAccessToken (user,expirestime) 
+{
+ return jwt.sign(user,process.env.ACCESS_TOKEN,{expiresIn:expirestime})
+}
 
 const signin=(req,res)=>{
   const {body}=req
@@ -50,7 +54,7 @@ const signin=(req,res)=>{
         if(e && status == 'valid'){
           const token=jwt.sign({payload}, process.env.SECRET)
           ls('token',token)
-          res.send(ls('token')) 
+          res.json({token:ls('token'),role:payload.roleId.name})
         }else{
           res.send('invalid')
         }
@@ -62,4 +66,14 @@ const signin=(req,res)=>{
 }
   })
 }
-module.exports= {signup,signin,verifyEmail}
+
+const ForgetPassword  = async(req, res) => 
+{
+  const user = await User.findOne({email:req.body.email})
+  if(!user) res.send('invalide mail')
+  ls('verifitoken',gererateAccessToken({id:user._id},"10m"))
+  sendEmail(user.email,ls('verifitoken'),user.name,'to reset your password','/api/auth/forgetpassword/')  
+  res.send("verifies votre email <a href=https://mail.google.com/mail/u/0/#inbox >")   
+}
+
+module.exports= {signup,signin,verifyEmail,ForgetPassword}
