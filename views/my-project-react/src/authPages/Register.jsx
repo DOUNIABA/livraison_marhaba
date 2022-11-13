@@ -1,4 +1,3 @@
-
 import {useState} from 'react'
 import {FaUser} from 'react-icons/fa'
 import axios from 'axios'
@@ -36,7 +35,6 @@ function Register(){
 	<>
 	<section className='heading'>
 		<h1><FaUser />Register</h1>
-		
 		<p>Please create an account</p>
 	</section>
 	<section className="form">

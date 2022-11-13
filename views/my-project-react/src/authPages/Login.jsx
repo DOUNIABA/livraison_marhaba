@@ -1,34 +1,51 @@
-
-import {useState} from 'react'
+import {useState,useEffect} from 'react'
+import { useNavigate } from 'react-router-dom'
 import {FaSignInAlt} from 'react-icons/fa'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 
 function Login() {
-	const [formData, setFormData] = useState({
-		email: '',
-		password: '',
-	})
-	
-    const {email, password}=formData
+	const [formData, setFormData] = useState({email: '', password: '',})
+	const navig=useNavigate()
+	const [sucess, setSucess] = useState("");
+	const [role, setRole] = useState("");
+	const {email, password}=formData
+
 	const onChange = (e) =>{
 		setFormData((prevState) => ({
 			...prevState,
 			[e.target.name]:e.target.value,
 		}))
 	}
-	
+
 	const handleApi = (e)=>{	
 		e.preventDefault();
 		console.log(formData);
 		axios.post(`http://localhost:4000/api/auth/login`, formData)
 		.then(res=>{
 			localStorage.setItem("token",res.data)
-			alert(res.data)
-		}).catch(error =>{
-			console.log(error)
+
+			setFormData("");
+			setSucess(true);
+			setRole(res.data.role)
+		})
+		.catch(error =>{
+			console.log(error) 
 		})
 	}
+
+	useEffect(() => {
+		if(sucess){
+	   if(role === "client"){
+		   navig("/client") 
+		  } 
+		  if (role === "manager"){
+			navig("/Manager") 
+		   }
+		} 
+	   else (console.log('err') )
+	},[formData]);
+
 
    return (
 	<>
@@ -38,6 +55,7 @@ function Login() {
 	</section>
 	<section className="form">
 		<form onSubmit={handleApi}>
+          <p className="text-green-500 font-bold text-center "></p>
 			
 			<div className="form-group">
 				<input type="email" className="form-control" id='email' name='email' value={email} placeholder='Enter your email' onChange={onChange}/>
@@ -54,6 +72,11 @@ function Login() {
              <div className="form-group">
             <Link to='/register'>
                 create an account?
+            </Link>   
+			</div> 
+			<div className="form-group">
+            <Link to='/forgetPassword'>
+               forget your pasword?
             </Link>   
 			</div> 
 
