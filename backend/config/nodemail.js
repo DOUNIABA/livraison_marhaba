@@ -1,4 +1,3 @@
-
 const nodemailer = require("nodemailer");
 const ls = require("local-storage");
 
@@ -25,5 +24,4 @@ const ls = require("local-storage");
             console.log(" send");
         }
     })
-   
   }
