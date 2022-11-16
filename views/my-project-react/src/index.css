@@ -34,6 +34,9 @@ h3 {
   font-weight: 600;
   margin-bottom: 10px;
 }
+.links{
+  justify-content: space-between;
+}
 
 .container {
   width: 100%;
@@ -51,7 +54,9 @@ h3 {
   border-bottom: 1px solid #e6e6e6;
   margin-bottom: 60px;
 }
-
+h1{
+  color: #fff;
+}
 .header ul {
   display: flex;
   align-items: center;
@@ -138,18 +143,26 @@ h3 {
 
 .btn {
   padding: 10px 20px;
-  border: 1px solid #000;
+  border: 1px solid #ffc107;
   border-radius: 5px;
-  background: #000;
+  background: #ffc107;
   color: #fff;
-  font-size: 16px;
-  font-weight: 700;
   cursor: pointer;
   text-align: center;
   appearance: button;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.block{
+  border-radius: 700px 350px;
+  margin-top: 10%;
+}
+
+
+.rounded-lg {
+  /* border-radius: 20.3rem!important; */
+  border-radius: 41em/11em;
 }
 
 .btn svg {
@@ -162,7 +175,7 @@ h3 {
 }
 
 .btn-block {
-  width: 100%;
+  width: auto;
   margin-bottom: 20px;
 }
 

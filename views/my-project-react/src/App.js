@@ -4,10 +4,12 @@ import Header from "./components/Header";
 import Register  from "./authPages/Register";
 import Login from "./authPages/Login"
 import Forgotpassword from "./authPages/forgetPassword";
+import Resetpassword from "./authPages/changePassword"
 import Manager from "./authPages/Manager";
 import Livreur from "./authPages/Livreur";
 import Client from "./authPages/Client";
-
+import Dashboard from "./components/Dashboard";
+import ProtectRoute from "./Utils/ProtectRoute";
 function App() {
   return (
    <>
@@ -21,10 +23,13 @@ function App() {
           <Route path='/manager' element={<Manager />} />
           <Route path='/livreur' element={<Livreur />} />
           <Route path="/forgetpassword" element={<Forgotpassword/>}/>
+          <Route path="/ForgetPassword" element={<Resetpassword/>}/>
 
-          {/* <Route path="/api/user/manager/me" element={<Manager role='manager'/>}/>
-          <Route path="/api/user/livreur/me" element={<Livreur role='livreur'/>}/>
-          <Route path="/api/user/client/me" element={<Client role='client'/>}/> */}
+            {/* private routes */}
+          <Route  element={<ProtectRoute/>}>
+          <Route path="/Dashboard" element={<Dashboard/>} />
+          </Route>
+
         </Routes>
       </div>
     </Router>

@@ -1,5 +1,4 @@
 import {useState} from 'react'
-import {FaUser} from 'react-icons/fa'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 
@@ -10,6 +9,7 @@ function Register(){
 		password: '',
 		password2: ''
 	})
+
 	const {name, email, password,password2} = formData
 
 	const onChange = (e) =>{
@@ -18,14 +18,13 @@ function Register(){
 			[e.target.name]:e.target.value,
 		}))
 	}
-
 	const handleApi = (e)=>{
 		e.preventDefault();
 		console.log(formData);
 		axios.post(`http://localhost:4000/api/auth/register`, formData)
 		.then(res =>{
 			console.log(res)
-			alert('success check your email')
+			alert('created successfully! Check your email')
 		}).catch(error =>{
 			console.log(error)
 		})
@@ -33,12 +32,14 @@ function Register(){
 
   return(
 	<>
+	 <div className="block bg-dark shadow-lg">
 	<section className='heading'>
-		<h1><FaUser />Register</h1>
+		<h1>Sign Up</h1>
 		<p>Please create an account</p>
 	</section>
+	<form onSubmit={handleApi}>
+
 	<section className="form">
-		<form onSubmit={handleApi}>
 			<div className="form-group">
 				<input type="text" className="form-control" id='name' name='name' value={name} placeholder='Enter your name' onChange={onChange}/>
 			</div>
@@ -55,17 +56,26 @@ function Register(){
 				<input type="password" className="form-control" id='password2' name='password2' value={password2} placeholder='Confirm password' onChange={onChange}/>
 			</div>
 
-		    <div className="form-grpuo">
+		    <div className="form-grpoup">
 				<button type='submit' className='btn btn-block'>Submit</button>
 			</div>
 
 			<div className="form-group">
-            <Link to='/login'>
+            <Link to='/login' className='already text-white'>
                 Already have an account?
             </Link>   
 			</div> 
-		</form>
+		
+		<div className="lg:w-6/12 flex items-center lg:rounded-r-lg rounded-b-lg lg:rounded-bl-none btncolor ">
+                      <div className="text-dark px-4 py-6 md:p-12 md:mx-6">
+                        <h4 className="text-xl font-semibold mb-6">
+                          We are more than just a company
+                        </h4>  
+                      </div>
+                    </div>
 	</section>
+	</form>
+	</div>
 	</>
   )
 }

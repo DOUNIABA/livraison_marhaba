@@ -1,12 +1,10 @@
 import { useState } from "react";
-
 import axios from "axios";
+
 function Forgotpassword() {
-     
   const [email, setEmail] = useState({email:""});
   const [errMsg, setErrMsg] = useState("");
   const [sucess, setSucess] = useState("");
-
 
   const onchange = (e) => {
     setEmail(() => ({
@@ -23,13 +21,12 @@ function Forgotpassword() {
       
         })
         .catch(function (err) {
-console.log(err.response)
+         console.log(err.response)
           if (!err.response) {
             setErrMsg("No Server Response");
           } else if (err.response?.status === 400) {
             setErrMsg("password or email incorrect");
           } 
-     
           else {
             setErrMsg(err);
           }
@@ -48,7 +45,7 @@ console.log(err.response)
                     <div className="text-center">
                      
                       <h4 className="text-xl font-semibold mt-1 mb-5 pb-1">
-                        Forgot password{" "}
+                        Forgot your password{" "}
                       </h4>
                     </div>
                     <div>
@@ -62,32 +59,31 @@ console.log(err.response)
                           {sucess}
                         </p>
                         <div>
-                          <p className="mb-4">Please verify your Email address</p>
                           <div className="mb-4">
                             <input
                               type="email"
                               id="email"
-                              placeholder='Enter your name'
+                              placeholder='Enter your email'
                               name="email"
                               onChange={onchange}
-                            // onChange={(e)=>setEmail(e.target.value)}
-
                               className="form-control w-full px-3 py-1.5 font-normal text-gray-700 bg-white border border-solid border-gray-300"
                             />
                           </div>
                           
-                          <div className="text-center pt-1 mb-12 pb-1">
-                            <button
-                              type="submit"
-                              className="inline-block px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3 btncolor"
-                            >
-                               Send email
-                            </button>
-                          
+                          <div className="form-grpoup">
+                            <button type='submit' className='btn btn-block'>Send Password</button>
                           </div>
                          
                         </div>
                       </form>
+                      <div className="lg:w-6/12 flex items-center lg:rounded-r-lg rounded-b-lg lg:rounded-bl-none btncolor ">
+                      <div className="text-white px-4 py-6 md:p-12 md:mx-6">
+                        <h4 className="text-xl font-semibold mb-6">
+                          We are more than just a company
+                        </h4>
+                        
+                      </div>
+                    </div>
                     </div>
                   </div>
                 </div>
