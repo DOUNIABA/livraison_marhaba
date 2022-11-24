@@ -1,8 +1,6 @@
 import React from 'react';
-import Container from 'react-bootstrap/Container';
 import { useNavigate } from "react-router-dom";
 import Nav from 'react-bootstrap/Nav';
-import Dropdown from 'react-bootstrap/Dropdown'
 import Navbar from 'react-bootstrap/Navbar';
 
 function Header(){
@@ -22,11 +20,11 @@ function Header(){
             </Nav> */} 
           <Nav className="d-flex">
                   { localStorage.getItem("token")?
-                    <Dropdown>
-                          <Dropdown.Toggle variant="with" id="dropdown-basic"> { localStorage.getItem("token")} </Dropdown.Toggle> 
-                          <Dropdown.Item onClick={logOut}>log out</Dropdown.Item>
-                    </Dropdown>
-                  : <Nav>
+                    <Nav>
+                        <Nav.Link onClick={logOut}>log out</Nav.Link>
+                    </Nav>
+
+                   :<Nav>
                         <Nav.Link href="/login">Login</Nav.Link>
                         <Nav.Link href="/Register">Register</Nav.Link>
                     </Nav>

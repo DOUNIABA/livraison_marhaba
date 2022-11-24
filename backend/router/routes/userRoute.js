@@ -7,6 +7,9 @@ router.post('/api/auth/register',user.signup)
 router.get('/api/auth/verify-email/:token',user.verifyEmail)
 router.post('/api/auth/login',user.signin)
 router.get('/api/auth/logout',user.Logout)
+router.get('/api/auth/ForgetPassword',user.ForgetPassword)
+
+
 
 router.post('/create',role.createRole)
 

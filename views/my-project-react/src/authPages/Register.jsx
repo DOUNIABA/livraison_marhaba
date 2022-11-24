@@ -1,6 +1,8 @@
 import {useState} from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+import toastr from 'toastr'
+import 'toastr/build/toastr.css'
 
 function Register(){
 	const [formData, setFormData] = useState({
@@ -11,25 +13,23 @@ function Register(){
 	})
 
 	const {name, email, password,password2} = formData
-
 	const onChange = (e) =>{
 		setFormData((prevState) => ({
 			...prevState,
 			[e.target.name]:e.target.value,
 		}))
 	}
+
 	const handleApi = (e)=>{
 		e.preventDefault();
-		console.log(formData);
 		axios.post(`http://localhost:4000/api/auth/register`, formData)
 		.then(res =>{
-			console.log(res)
-			alert('created successfully! Check your email')
-		}).catch(error =>{
+			toastr.success(res.data, {positionClass: "toast-bottom-left"})})
+		.catch(error =>{
 			console.log(error)
 		})
 	}
-
+	
   return(
 	<>
 	 <div className="block bg-dark shadow-lg">
@@ -38,7 +38,6 @@ function Register(){
 		<p>Please create an account</p>
 	</section>
 	<form onSubmit={handleApi}>
-
 	<section className="form">
 			<div className="form-group">
 				<input type="text" className="form-control" id='name' name='name' value={name} placeholder='Enter your name' onChange={onChange}/>
@@ -49,7 +48,7 @@ function Register(){
 			</div>
 
 			<div className="form-group">
-				<input type="password" className="form-control" id='password' name='password' value={password} placeholder='Enter your password' onChange={onChange}/>
+				<input pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" type="password" className="form-control" id='password' name='password' value={password} placeholder='Enter your password' required onChange={onChange}/>
 			</div>
 
 			<div className="form-group">
@@ -66,13 +65,13 @@ function Register(){
             </Link>   
 			</div> 
 		
-		<div className="lg:w-6/12 flex items-center lg:rounded-r-lg rounded-b-lg lg:rounded-bl-none btncolor ">
+		    <div className="lg:w-6/12 flex items-center lg:rounded-r-lg rounded-b-lg lg:rounded-bl-none btncolor ">
                       <div className="text-dark px-4 py-6 md:p-12 md:mx-6">
                         <h4 className="text-xl font-semibold mb-6">
                           We are more than just a company
                         </h4>  
                       </div>
-                    </div>
+            </div>
 	</section>
 	</form>
 	</div>

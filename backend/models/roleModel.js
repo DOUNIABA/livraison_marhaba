@@ -1,7 +1,7 @@
 
 const mongoose = require('mongoose')
-const role = new mongoose.Schema({
-    
+
+const role = new mongoose.Schema({  
     name:{
         type:String
     },

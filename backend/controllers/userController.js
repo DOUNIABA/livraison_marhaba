@@ -11,7 +11,7 @@ const signup = async (req,res)=>{
      const {body}=req
      const user = await User.findOne({email:body.email})
        if(user) 
-        return res.status(400).send('user exist already')        
+        return res.status(200).send('User already exist')        
         ls('email',body.email)
         const email= ls('email')
         const token= await jwt.sign({email},process.env.SECRET)
@@ -21,8 +21,8 @@ const signup = async (req,res)=>{
        body.password=hash
      const data= await User.create({...body, roleId:'6355d40ec510b624a5542a8a'})
      if(!data)                        
-     return res.status(400).send('not created')
-     res.status(500).send('created')
+     return res.status(400).send('Your account has not created.')
+     res.status(200).send('Your account has been created.Check your email!!')
 }
   const verifyEmail = async (req,res) => {
     const token = req.params.token
@@ -57,7 +57,8 @@ const signin=(req,res)=>{
           ls('token',token)
           res.json({token:ls('token'),role:payload.roleId.name})
         }else{
-          res.send('invalid')
+          res.status(200).send('Invalid email or password!!')
+
         }
       }).catch(()=>{
           res.send('password not hashed')
@@ -68,28 +69,6 @@ const signin=(req,res)=>{
   })
 }
 
-exports.ResetPassword =async (req, res) => 
-{
-  const userone= await User.findOne({_id:req.user.payload.userId})
-  if(await bcryptjs.compare(req.body.password,userone.password))
-  {
-    User.updateOne({email:req.user.payload.email},{password:await bcryptjs.hash(req.body.passwordnew,10)})
-    .then( result=>{res.send(result) })
-    .catch(e=>{ res.send(e)})   
-  }else res.send('password invalide')
-}
-
-// method : put => url : api/auth/forgetpassword/:token =>acces : private
-exports.changepassword =async (req, res) => 
-{
-  const decodedToken = jwt.verify(ls('verifitoken'),process.env.ACCESS_TOKEN);
-  if(!decodedToken)console.log('error  token')
-  User.updateOne({_id:decodedToken.id},{password:await bcryptjs.hash(req.body.password,10)})
-  .then(result=>{res.send(result)})
-  .catch(e=>{ console.log(e)}) 
-};
-
-
 const ForgetPassword  = async(req, res) => 
 {
   const user = await User.findOne({email:req.body.email})
@@ -98,6 +77,7 @@ const ForgetPassword  = async(req, res) =>
   sendEmail(user.email,ls('verifitoken'),user.name,'to reset your password','/api/auth/forgetpassword/')  
   res.send("verifiez votre email <a href=https://mail.google.com/mail/u/0/#inbox >")  
 }
+
 const Logout = async(req,res)=>{
   localStorage.clear();
   res.send('logout');
